@@ -1,7 +1,7 @@
 <h1 align="center">Gautrain Journey Planner</h1>
 
 <p align="center">
-  <img src="https://skyner.co.za/assets/images/logos/development-light.png" alt="Skyner Development" width="400">
+  <img src="https://skyner.co.za/assets/images/logos/development-dark.png" alt="Skyner Development" width="400">
 </p>
 
 <p align="center">
