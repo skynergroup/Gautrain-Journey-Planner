@@ -1,3 +1,14 @@
+/**
+ * Gautrain Journey Planner - API Proxy Server
+ *
+ * A Node.js proxy server that handles API requests to the Gautrain API,
+ * avoiding CORS issues and providing fallback responses when needed.
+ *
+ * @author Skyner Development (www.skyner.co.za)
+ * @version 1.0.0
+ * @license Copyright (c) 2024 Skyner Development. All rights reserved.
+ */
+
 // Simple proxy server to handle API requests
 const express = require('express');
 const cors = require('cors');
@@ -32,7 +43,7 @@ app.get('/api/status', async (req, res) => {
 app.post('/api/journey', async (req, res) => {
     try {
         console.log('Journey request received:', JSON.stringify(req.body, null, 2));
-        
+
         const response = await axios.post(
             'https://api.gautrain.co.za/transport-api/api/0/journey/create',
             req.body,
@@ -42,7 +53,7 @@ app.post('/api/journey', async (req, res) => {
                 }
             }
         );
-        
+
         console.log('Journey response received');
         res.json(response.data);
     } catch (error) {
@@ -51,13 +62,13 @@ app.post('/api/journey', async (req, res) => {
             console.error('Response status:', error.response.status);
             console.error('Response data:', error.response.data);
         }
-        
+
         // Return a simulated response for demo purposes
         console.log('Returning simulated journey data');
-        
+
         // Extract coordinates from the request
         const coordinates = req.body.geometry.coordinates;
-        
+
         // Create a simulated response
         const simulatedResponse = {
             itineraries: [
@@ -99,7 +110,7 @@ app.post('/api/journey', async (req, res) => {
                 }
             ]
         };
-        
+
         res.json(simulatedResponse);
     }
 });

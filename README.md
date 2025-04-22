@@ -1,45 +1,70 @@
-# Gautrain Schedule Checker
+# Gautrain Journey Planner
 
-A simple web application that uses the Gautrain API to check train schedules between stations.
+![Skyner Development](https://www.skyner.co.za/wp-content/uploads/2023/04/skyner-logo.png)
+
+A comprehensive web application developed by [Skyner Development](https://www.skyner.co.za) that provides Gautrain journey planning, fare information, and interactive route visualization.
 
 ## Features
 
-- Check train schedules between any two Gautrain stations
-- View departure and arrival times
-- See journey duration
-- Simple and intuitive interface
+- Plan journeys between any two Gautrain stations
+- View detailed schedules with departure and arrival times
+- Get accurate fare information for different ticket types
+- Interactive map with station markers and route visualization
+- South African-inspired design with Springbok color scheme
+- Responsive interface that works on all devices
 
 ## How to Use
 
-1. Open `index.html` in a web browser
-2. Select your departure station from the dropdown
-3. Select your arrival station from the dropdown
-4. Click "Check Schedule" to see the next available trains
+1. Start the application: `npm start`
+2. Open your browser and navigate to `http://localhost:3000`
+3. Select your departure and arrival stations
+4. Choose when you want to travel (now, morning, afternoon, or evening)
+5. Click "Find Trains" to see available journeys
+6. Explore the different tabs for schedules, fares, and route information
 
-## API Information
+## Technology Stack
 
-This application uses the Gautrain API to fetch schedule information:
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Map Visualization**: Leaflet.js
+- **Backend Proxy**: Node.js with Express
+- **API Integration**: Gautrain Transport API
+- **Design**: Custom responsive design with Springbok color scheme
 
-- Service check: `https://api.gautrain.co.za/user-service/api/0/mobile/isLive/1.0.0`
-- Journey creation: `https://api.gautrain.co.za/transport-api/api/0/journey/create`
+## API Integration
 
-The API is based on the WhereIsMyTransport platform.
+This application integrates with the Gautrain API through a custom proxy server:
 
-## Notes
+- Service status: `https://api.gautrain.co.za/user-service/api/0/mobile/isLive/1.0.0`
+- Journey planning: `https://api.gautrain.co.za/transport-api/api/0/journey/create`
+- Station information: Stored locally for optimal performance
 
-- This is a simple demonstration of the API and may not include all features
-- The application does not require any API keys as it uses publicly accessible endpoints
-- Station coordinates are hardcoded in `stations.js`
+## Fare Information
 
-## Limitations
+The application includes up-to-date fare information for all Gautrain routes:
 
-- The application relies on the Gautrain API being available
-- CORS issues may prevent the application from working when run locally
-- The API may change without notice
+- Single trip fares (peak and off-peak)
+- Return trip fares
+- Weekly passes (10 trips valid for 10 days)
+- Monthly passes (44 trips valid for 44 days)
 
-## Future Improvements
+Fare data is updated regularly to reflect the latest Gautrain pricing.
 
-- Add more detailed journey information
-- Include bus connections
-- Show fare information
-- Add a map view of the journey
+## Development
+
+This application was developed by [Skyner Development](https://www.skyner.co.za), a South African software development company specializing in web applications and transport solutions.
+
+### Project Structure
+
+- `index.html` - Main application interface
+- `styles.css` - Core styling with responsive design
+- `map-styles.css` - Map-specific styling
+- `script.js` - Main application logic
+- `stations.js` - Station data and helper functions
+- `routes.js` - Train route information
+- `fares.js` - Fare calculation logic
+- `proxy.js` - Node.js proxy server for API requests
+
+## License
+
+© 2024 Skyner Development. All rights reserved.
+www.skyner.co.za

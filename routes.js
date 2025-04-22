@@ -1,3 +1,14 @@
+/**
+ * Gautrain Routes and Lines Module
+ *
+ * Contains detailed information about Gautrain routes, lines, and
+ * functions for calculating journey paths and times between stations.
+ *
+ * @author Skyner Development (www.skyner.co.za)
+ * @version 1.1.0
+ * @license Copyright (c) 2024 Skyner Development. All rights reserved.
+ */
+
 // Gautrain routes and lines information
 
 // Define the three main Gautrain lines
@@ -132,7 +143,7 @@ function getJourneyLines(departureStationId, arrivalStationId) {
     // Convert station IDs to standardized format
     const fromId = departureStationId.toLowerCase().replace(/[^a-z]/g, '');
     const toId = arrivalStationId.toLowerCase().replace(/[^a-z]/g, '');
-    
+
     // Check if both stations are on the same line
     for (const lineKey in GAUTRAIN_LINES) {
         const line = GAUTRAIN_LINES[lineKey];
@@ -140,11 +151,11 @@ function getJourneyLines(departureStationId, arrivalStationId) {
             return [line];
         }
     }
-    
+
     // If not on the same line, find lines for each station
     const fromLines = [];
     const toLines = [];
-    
+
     for (const lineKey in GAUTRAIN_LINES) {
         const line = GAUTRAIN_LINES[lineKey];
         if (line.stations.includes(fromId)) {
@@ -154,10 +165,10 @@ function getJourneyLines(departureStationId, arrivalStationId) {
             toLines.push(line);
         }
     }
-    
+
     // Find common interchange stations
     const interchangeStations = ['marlboro', 'sandton'];
-    
+
     // Return the lines needed for the journey
     return [...new Set([...fromLines, ...toLines])];
 }
@@ -167,7 +178,7 @@ function getJourneyStations(departureStationId, arrivalStationId) {
     // Convert station IDs to standardized format
     const fromId = departureStationId.toLowerCase().replace(/[^a-z]/g, '');
     const toId = arrivalStationId.toLowerCase().replace(/[^a-z]/g, '');
-    
+
     // Check if both stations are on the same line
     for (const lineKey in GAUTRAIN_LINES) {
         const line = GAUTRAIN_LINES[lineKey];
@@ -175,7 +186,7 @@ function getJourneyStations(departureStationId, arrivalStationId) {
             // Get the indices of the stations in the line
             const fromIndex = line.stations.indexOf(fromId);
             const toIndex = line.stations.indexOf(toId);
-            
+
             // Get the stations between the departure and arrival
             if (fromIndex < toIndex) {
                 return line.stations.slice(fromIndex, toIndex + 1);
@@ -184,17 +195,17 @@ function getJourneyStations(departureStationId, arrivalStationId) {
             }
         }
     }
-    
+
     // If stations are on different lines, we need to find a transfer point
     // For simplicity, we'll use Marlboro or Sandton as transfer points
     const transferStations = ['marlboro', 'sandton'];
     let transferStation = null;
-    
+
     // Find a transfer station that connects both stations
     for (const station of transferStations) {
         let fromLineHasStation = false;
         let toLineHasStation = false;
-        
+
         for (const lineKey in GAUTRAIN_LINES) {
             const line = GAUTRAIN_LINES[lineKey];
             if (line.stations.includes(fromId) && line.stations.includes(station)) {
@@ -204,23 +215,23 @@ function getJourneyStations(departureStationId, arrivalStationId) {
                 toLineHasStation = true;
             }
         }
-        
+
         if (fromLineHasStation && toLineHasStation) {
             transferStation = station;
             break;
         }
     }
-    
+
     if (!transferStation) {
         return ['No direct route available'];
     }
-    
+
     // Get stations from departure to transfer
     const firstLegStations = getJourneyStations(fromId, transferStation);
-    
+
     // Get stations from transfer to arrival
     const secondLegStations = getJourneyStations(transferStation, toId);
-    
+
     // Combine the two legs, removing the duplicate transfer station
     return [...firstLegStations.slice(0, -1), ...secondLegStations];
 }
@@ -229,48 +240,48 @@ function getJourneyStations(departureStationId, arrivalStationId) {
 function estimateJourneyTime(departureStationId, arrivalStationId) {
     // Average speed of Gautrain is about 160 km/h
     // We'll use a simplified calculation based on distance
-    
+
     // Get the stations on the journey
     const stations = getJourneyStations(departureStationId, arrivalStationId);
-    
+
     // If no route is available
     if (stations[0] === 'No direct route available') {
         return null;
     }
-    
+
     // Calculate the total distance
     let totalDistance = 0;
     for (let i = 0; i < stations.length - 1; i++) {
         const station1 = stations[i];
         const station2 = stations[i + 1];
-        
+
         // Find the coordinates of the stations
         const station1Obj = STATIONS.find(s => s.id.toLowerCase().includes(station1));
         const station2Obj = STATIONS.find(s => s.id.toLowerCase().includes(station2));
-        
+
         if (station1Obj && station2Obj) {
             // Calculate distance between the two stations
             const distance = calculateDistance(station1Obj, station2Obj);
             totalDistance += distance;
         }
     }
-    
+
     // Estimate time based on distance (average speed 160 km/h)
     // Add 2 minutes per station for stops (except the first station)
     const travelTimeHours = totalDistance / 160;
     const travelTimeMinutes = travelTimeHours * 60;
     const stationStopTime = (stations.length - 1) * 2;
-    
+
     // Add a small buffer for acceleration/deceleration
     const totalTimeMinutes = Math.ceil(travelTimeMinutes + stationStopTime + 5);
-    
+
     return totalTimeMinutes;
 }
 
 // Function to get the line name for a journey
 function getJourneyLineName(departureStationId, arrivalStationId) {
     const lines = getJourneyLines(departureStationId, arrivalStationId);
-    
+
     if (lines.length === 1) {
         return lines[0].name;
     } else if (lines.length > 1) {

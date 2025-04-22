@@ -1,3 +1,14 @@
+/**
+ * Gautrain Fares Module
+ *
+ * Contains comprehensive fare information for all Gautrain routes,
+ * including single trips, return trips, weekly and monthly passes.
+ *
+ * @author Skyner Development (www.skyner.co.za)
+ * @version 1.2.0
+ * @license Copyright (c) 2024 Skyner Development. All rights reserved.
+ */
+
 // Gautrain fare information based on the updated 2024 fare guide
 // Source: assets/updated fares/image.png and assets/updated fares/image 2.png
 

@@ -1,5 +1,16 @@
+/**
+ * Gautrain Journey Planner
+ *
+ * A comprehensive web application for planning Gautrain journeys,
+ * checking fares, and visualizing routes on an interactive map.
+ *
+ * @author Skyner Development (www.skyner.co.za)
+ * @version 1.2.0
+ * @license Copyright (c) 2024 Skyner Development. All rights reserved.
+ */
+
 // Constants
-const GAUTRAIN_AGENCY_ID = "edObkk6o-0WN3tNZBLqKPg";
+const GAUTRAIN_AGENCY_ID = "edObkk6o-0WN3tNZBLqKPg"; // Gautrain agency ID from the transport API
 const API_BASE_URL = "http://localhost:3000/api"; // Using local proxy server
 const MAP_CENTER = [-26.05, 28.10]; // Center of the map (near Midrand)
 const MAP_ZOOM = 10; // Default zoom level

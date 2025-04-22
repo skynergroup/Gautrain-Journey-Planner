@@ -1,3 +1,14 @@
+/**
+ * Gautrain Stations Data Module
+ *
+ * Contains comprehensive information about all Gautrain stations,
+ * including coordinates, facilities, connections, and helper functions.
+ *
+ * @author Skyner Development (www.skyner.co.za)
+ * @version 1.1.0
+ * @license Copyright (c) 2024 Skyner Development. All rights reserved.
+ */
+
 // Gautrain stations with their coordinates and additional information
 const STATIONS = [
     {

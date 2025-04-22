@@ -443,17 +443,70 @@ label {
     background-color: #1A4D2E;
     color: white;
     padding: 20px;
-    text-align: center;
     margin-top: auto;
 }
 
-.footer p {
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-logo p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.footer-logo a {
+    color: #FDB913;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-logo a:hover {
+    color: white;
+}
+
+.footer-info {
+    text-align: center;
+    flex: 1;
+}
+
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.footer-contact p {
     margin: 5px 0;
+}
+
+.footer-contact a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-contact a:hover {
+    color: #FDB913;
 }
 
 .disclaimer {
     font-size: 0.8rem;
     opacity: 0.8;
+    margin-top: 10px;
 }
 
 /* Utility Classes */
@@ -498,5 +551,15 @@ label {
 
     .tab-button {
         white-space: nowrap;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-logo, .footer-contact {
+        align-items: center;
     }
 }
