@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gautrain Journey Planner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="map-styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">
+                <img src="">
+                <h1>Gautrain Journey Planner</h1>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="journey-planner">
+                <div class="form-card">
+                    <h2><i class="fas fa-train"></i> Plan Your Journey</h2>
+
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="departure"><i class="fas fa-map-marker-alt"></i> From:</label>
+                            <select id="departure" class="station-select"></select>
+                        </div>
+
+                        <div class="swap-stations">
+                            <button id="swap-button" title="Swap stations">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="arrival"><i class="fas fa-flag-checkered"></i> To:</label>
+                            <select id="arrival" class="station-select"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="travel-time"><i class="far fa-clock"></i> When:</label>
+                            <select id="travel-time" class="time-select">
+                                <option value="now">Depart now</option>
+                                <option value="morning">Morning (6:00 - 9:00)</option>
+                                <option value="afternoon">Afternoon (12:00 - 15:00)</option>
+                                <option value="evening">Evening (16:00 - 19:00)</option>
+                            </select>
+                        </div>
+
+                        <button id="check-schedule" class="primary-button">
+                            <i class="fas fa-search"></i> Find Trains
+                        </button>
+                    </div>
+                </div>
+
+                <div id="map-container" class="map-card">
+                    <!-- Map will be inserted here by Leaflet -->
+                </div>
+            </div>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Finding the best routes for you...</p>
+            </div>
+
+            <div id="results" class="results-container hidden">
+                <div class="results-header">
+                    <h2>Journey Results</h2>
+                    <div class="journey-summary">
+                        <span id="journey-stations"></span>
+                        <span id="journey-time"></span>
+                    </div>
+                </div>
+
+                <div class="results-tabs">
+                    <button class="tab-button active" data-tab="schedules">Schedules</button>
+                    <button class="tab-button" data-tab="fares">Fares</button>
+                    <button class="tab-button" data-tab="route">Route Info</button>
+                </div>
+
+                <div id="schedules-tab" class="tab-content active">
+                    <div id="schedules" class="schedules-list"></div>
+                </div>
+
+                <div id="fares-tab" class="tab-content">
+                    <div class="fare-info">
+                        <div class="fare-card">
+                            <h3>Single Trip</h3>
+                            <div class="fare-amount" id="single-fare">R--</div>
+                            <p class="fare-description">Valid for one journey</p>
+                        </div>
+
+                        <div class="fare-card">
+                            <h3>Return Trip</h3>
+                            <div class="fare-amount" id="return-fare">R--</div>
+                            <p class="fare-description">Valid for a return journey on the same day</p>
+                        </div>
+
+                        <div class="fare-card">
+                            <h3>Weekly Pass</h3>
+                            <div class="fare-amount" id="weekly-fare">R--</div>
+                            <p class="fare-description">Valid for 10 trips within 7 days</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="route-tab" class="tab-content">
+                    <div class="route-info">
+                        <div class="route-details">
+                            <div class="detail-item">
+                                <i class="fas fa-route"></i>
+                                <div>
+                                    <h4>Distance</h4>
+                                    <p id="route-distance">-- km</p>
+                                </div>
+                            </div>
+
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h4>Travel Time</h4>
+                                    <p id="route-duration">-- minutes</p>
+                                </div>
+                            </div>
+
+                            <div class="detail-item">
+                                <i class="fas fa-train"></i>
+                                <div>
+                                    <h4>Line</h4>
+                                    <p id="route-line">--</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stations-list">
+                            <h4>Stations on this route</h4>
+                            <ul id="route-stations"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="error-message hidden">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>An error occurred. Please try again.</p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Gautrain Journey Planner | Powered by Gautrain API</p>
+            <p class="disclaimer">Fare information is approximate and may not reflect actual Gautrain fares.</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="stations.js"></script>
+    <script src="routes.js"></script>
+    <script src="fares.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
