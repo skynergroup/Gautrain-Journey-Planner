@@ -1,6 +1,6 @@
 # Gautrain Journey Planner
 
-![Skyner Development](https://www.skyner.co.za/wp-content/uploads/2023/04/skyner-logo.png)
+![Skyner Development]([https://www.skyner.co.za/wp-content/uploads/2023/04/skyner-logo.png](https://skyner.co.za/assets/images/logos/development-light.png))
 
 A comprehensive web application developed by [Skyner Development](https://www.skyner.co.za) that provides Gautrain journey planning, fare information, and interactive route visualization.
 
